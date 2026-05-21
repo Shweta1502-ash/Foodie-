@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { IRECIPEUSER } from "../@types";
 import { Button } from "./button";
@@ -41,7 +41,6 @@ export const RecipeCard = ({
 };
 
 export const Card = ({
-  id,
   avatar,
   image,
   title,

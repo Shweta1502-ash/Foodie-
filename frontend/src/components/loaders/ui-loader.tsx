@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./ui-style.css";
 
 export const UILoader = () => {

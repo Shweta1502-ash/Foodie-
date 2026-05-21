@@ -1,4 +1,4 @@
-import React, { useState, useContext, useLayoutEffect } from "react";
+import { useState, useContext, useLayoutEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
