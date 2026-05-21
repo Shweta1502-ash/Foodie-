@@ -1,8 +1,10 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
 
+const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 export const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL_DEV,
+  baseURL: apiBase,
 });
 
 instance.interceptors.request.use(
