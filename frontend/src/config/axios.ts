@@ -44,10 +44,11 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (!error?.response?.data) {
-      return;
+      cogoToast.error("check your internet connection");
+      return Promise.reject(error);
     }
     if (error.response.status >= 300) {
-      return cogoToast.error(
+      cogoToast.error(
         !!error.response.data.error
           ? error.response.data.error
           : "check your internet connection"
