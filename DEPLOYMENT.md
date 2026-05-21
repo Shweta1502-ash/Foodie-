@@ -10,9 +10,9 @@
 
 ### Backend
 - **Status**: ✅ Deployed
-- **Platform**: Vercel (Node.js Runtime)
-- **URL**: https://foodie-backend-three.vercel.app
-- **Inspect**: https://vercel.com/sheetal-lodhis-projects/foodie-backend
+- **Platform**: Railway (Node.js)
+- **URL**: https://foodie-production-d900.up.railway.app
+- **Dashboard**: https://railway.com/project/107eb211-be3a-4aad-a2fc-0c1cf35ed2d0
 
 ---
 
