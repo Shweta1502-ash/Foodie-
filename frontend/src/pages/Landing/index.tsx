@@ -10,10 +10,12 @@ import { useNavigate } from "react-router-dom";
 type _STATE = {
   email: string;
   password: string;
+  confirmPassword?: string;
 };
 
 export const Landing = () => {
   const navigate = useNavigate();
+  const [isSignup, setIsSignup] = useState(false);
 
   // Protecting this route (can be done in a higher-order component)
   useLayoutEffect(() => {
@@ -33,7 +35,11 @@ export const Landing = () => {
   }
   const { loading, onLogin } = context;
 
-  const [state, setState] = useState<_STATE>({ email: "", password: "" });
+  const [state, setState] = useState<_STATE>({ 
+    email: "", 
+    password: "",
+    confirmPassword: ""
+  });
 
   const handleState = (e: FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -51,6 +57,14 @@ export const Landing = () => {
       return cogoToast.error("Please provide a password");
     }
 
+    if (isSignup && state.password !== state.confirmPassword) {
+      return cogoToast.error("Passwords do not match");
+    }
+
+    if (isSignup && state.password.length < 6) {
+      return cogoToast.error("Password must be at least 6 characters");
+    }
+
     try {
       if (onLogin) {
         await onLogin({
@@ -64,6 +78,7 @@ export const Landing = () => {
     }
   };
 
+
   return (
     <div className="w-full h-screen flex overflow-hidden">
       <Form
@@ -76,12 +91,50 @@ export const Landing = () => {
             Zaika
           </h2>
 
+          {/* Auth Type Toggle Tabs */}
+          <div className="flex gap-2 mb-6 w-full md:w-[80%]">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignup(false);
+                setState({ email: "", password: "", confirmPassword: "" });
+              }}
+              className={`flex-1 py-2 px-4 font-semibold rounded transition ${
+                !isSignup
+                  ? "bg-orange-500 text-white"
+                  : "bg-zinc-800 text-gray-300 hover:bg-zinc-700"
+              }`}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignup(true);
+                setState({ email: "", password: "", confirmPassword: "" });
+              }}
+              className={`flex-1 py-2 px-4 font-semibold rounded transition ${
+                isSignup
+                  ? "bg-orange-500 text-white"
+                  : "bg-zinc-800 text-gray-300 hover:bg-zinc-700"
+              }`}
+            >
+              Sign Up
+            </button>
+          </div>
+
+          {/* Form Title */}
+          <h3 className="text-lg font-semibold text-gray-300 mb-2">
+            {isSignup ? "Create your account" : "Welcome back"}
+          </h3>
+
           {/* Input Fields with Less Width */}
           <Input
             name="email"
             placeholder="Email"
             handleChange={handleState}
             type="text"
+            value={state.email}
             className="bg-zinc-900 py-1 px-4 w-full md:w-[80%] shadow-xl placeholder:text-sm hover:bg-zinc-800 cursor-pointer focus:outline-none"
           />
 
@@ -90,21 +143,41 @@ export const Landing = () => {
             placeholder="Password"
             handleChange={handleState}
             type="password"
+            value={state.password}
             className="bg-zinc-900 py-1 px-4 w-full md:w-[80%] placeholder:text-sm hover:bg-zinc-800 cursor-pointer focus:outline-none"
           />
 
+          {/* Confirm Password - Only for Signup */}
+          {isSignup && (
+            <Input
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              handleChange={handleState}
+              type="password"
+              value={state.confirmPassword}
+              className="bg-zinc-900 py-1 px-4 w-full md:w-[80%] placeholder:text-sm hover:bg-zinc-800 cursor-pointer focus:outline-none"
+            />
+          )}
+
           <div className="w-full md:w-[50%] m-auto flex flex-col gap-2">
             <Button
-              title={loading ? "Loading" : "Login"}
-              className="bg-orange-500 text-white hover:bg-orange-600 py-1 px-6 w-full"
+              title={loading ? "Loading..." : isSignup ? "Sign Up" : "Login"}
+              className="bg-orange-500 text-white hover:bg-orange-600 py-1 px-6 w-full disabled:opacity-50"
               type="submit"
               disabled={loading}
             />
           </div>
+
+          {/* Helper Text */}
+          <p className="text-sm text-gray-400 text-center md:w-[80%]">
+            {isSignup
+              ? "Already have an account? Click the Login tab"
+              : "Don't have an account? Click the Sign Up tab"}
+          </p>
         </div>
       </Form>
 
-      <div className="w-1/2 h-full">
+      <div className="hidden md:block w-1/2 h-full">
         <img
           src={recipeOne}
           alt="A dish with food recipes"
