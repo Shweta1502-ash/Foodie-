@@ -1,7 +1,11 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
 
-const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+// Use Railway backend URL or fallback to localhost
+const apiBase = import.meta.env.VITE_API_BASE_URL || "https://foodie-production-d900.up.railway.app";
+
+console.log("API Base URL:", apiBase);
+console.log("Env VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
 
 export const instance = axios.create({
   baseURL: apiBase,
